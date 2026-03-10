@@ -13,7 +13,9 @@ FROM php:8.3-apache
 RUN apt-get update && apt-get install -y curl && docker-php-ext-install pdo pdo_mysql
 
 # Enable Apache mod_rewrite and set ServerName
-RUN a2enmod rewrite && echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN a2enmod rewrite \
+    && echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+    && a2enconf servername
 
 # Update Apache config for .htaccess
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
