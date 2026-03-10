@@ -24,11 +24,15 @@ WORKDIR /var/www/html
 # Copy built assets from build stage
 COPY --from=build /app/dist /var/www/html/
 
-# Copy PHP backend files and .htaccess
-COPY install.php migrate.php .htaccess /var/www/html/
+# Copy Files
+COPY install.php auto-install.php entrypoint.sh .htaccess /var/www/html/
 
-# Force permissions and ownership
+# Permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chmod -R 755 /var/www/html \
+    && chmod +x /var/www/html/entrypoint.sh
+
+# Use entrypoint
+ENTRYPOINT ["/var/www/html/entrypoint.sh"]
 
 EXPOSE 80
