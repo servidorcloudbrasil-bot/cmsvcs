@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    environment:
+      - DB_HOST=db
+      - DB_NAME=cms_seo
+      - DB_USER=admin
+      - DB_PASS=senha_segura
+    networks:
+      - cms-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: cms_seo
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: senha_segura
+      MYSQL_ROOT_PASSWORD: senha_mestra_segura
+    networks:
+      - cms-network
+
+networks:
+  cms-network:
+    driver: bridge
