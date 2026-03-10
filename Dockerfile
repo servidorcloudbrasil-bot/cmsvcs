@@ -24,10 +24,11 @@ WORKDIR /var/www/html
 # Copy built assets from build stage
 COPY --from=build /app/dist /var/www/html/
 
-# Copy PHP backend files
-COPY install.php /var/www/html/
+# Copy PHP backend files and .htaccess
+COPY install.php migrate.php .htaccess /var/www/html/
 
-# Optional: Add folders and permissions if needed
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+# Force permissions and ownership
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 EXPOSE 80

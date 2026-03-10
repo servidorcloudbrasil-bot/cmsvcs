@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Se o arquivo existir (como install.php ou migrate.php), serve ele direto
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+  
+  # Se não for um arquivo, manda tudo pro index.html do React
+  RewriteRule ^ index.html [L]
+</IfModule>
