@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notebookmastersp.com.br/sitemap.xml

@@ -1,0 +1,39 @@
+{
+  "services": [
+    {
+      "name": "cms-seo-app",
+      "type": "app",
+      "source": {
+        "type": "github",
+        "owner": "SEU_USUARIO",
+        "repo": "SEU_REPOSITORIO",
+        "branch": "main"
+      },
+      "build": {
+        "type": "dockerfile",
+        "file": "Dockerfile"
+      },
+      "domains": [
+        {
+          "host": "$(APP_DOMAIN)",
+          "https": true
+        }
+      ],
+      "env": "DB_HOST=cms-seo-db\nDB_NAME=cms_seo\nDB_USER=admin\nDB_PASSWORD=senha_segura",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "cms-data",
+          "mountPath": "/var/www/html"
+        }
+      ]
+    },
+    {
+      "name": "cms-seo-db",
+      "type": "mysql",
+      "password": "senha_segura",
+      "rootPassword": "senha_mestra_segura",
+      "image": "mysql:8.0"
+    }
+  ]
+}
