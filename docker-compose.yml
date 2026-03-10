@@ -13,6 +13,11 @@ services:
       - DB_PASS=senha_segura
     networks:
       - cms-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     image: mysql:8.0

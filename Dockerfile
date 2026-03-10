@@ -9,11 +9,11 @@ RUN npm run build
 # Production Stage
 FROM php:8.3-apache
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install PHP extensions and utilities
+RUN apt-get update && apt-get install -y curl && docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache mod_rewrite and set ServerName
+RUN a2enmod rewrite && echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Update Apache config for .htaccess
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
