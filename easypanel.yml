@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-cms_seo}
+    volumes:
+      - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./server
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: ${DB_PASS:-rootpassword}
+      DB_NAME: ${DB_NAME:-cms_seo}
+      PORT: 3001
+    depends_on:
+      - db
+
+  frontend:
+    build: .
+    restart: always
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
